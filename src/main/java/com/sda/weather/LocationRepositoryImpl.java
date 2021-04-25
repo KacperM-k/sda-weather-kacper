@@ -4,6 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class LocationRepositoryImpl implements LocationRepository {
 
     private SessionFactory sessionFactory;
@@ -23,5 +25,19 @@ public class LocationRepositoryImpl implements LocationRepository {
         session.close();
 
         return location;
+    }
+
+    @Override
+    public List<Location> showAllLocations() {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        List<Location> locations = session.createQuery("SELECT l FROM Location AS l", Location.class)
+                .getResultList();
+
+        transaction.commit();
+        session.close();
+
+        return locations;
     }
 }

@@ -20,17 +20,18 @@ public class Location {
     String region;
     @Column(nullable = false)
     String countryname;
-//    @Column(nullable = false)
+    @Column(nullable = false)
+    Double longitude;
+    @Column(nullable = false)
+    Double latitude;
 
 
-    public Location( String cityname, String region, String countryname) {
-        this.cityname = cityname;
-        this.region = region;
-        this.countryname = countryname;
-    }
-
-    public Location(String cityname, String countryname) {
+    public Location( String cityname, String countryname, Double longitude, Double latitude) {
         this.cityname = cityname;
         this.countryname = countryname;
+        this. longitude = longitude;
+        this.latitude = latitude;
+
     }
+
 }

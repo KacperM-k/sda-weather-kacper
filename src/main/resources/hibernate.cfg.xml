@@ -1,0 +1,15 @@
+<hibernate-configuration>
+    <session-factory>
+        <property name="dialect">org.hibernate.dialect.MySQL57Dialect</property>
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url"></property>
+        <property name="connection.username"></property>
+        <property name="connection.password"></property>
+        <property name="hbm2ddl.auto">update</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">false</property>
+        <property name="use.sql_comments">true</property>
+        <mapping class = "com.sda.hibernate.entity.Location"></mapping>
+
+    </session-factory>
+</hibernate-configuration>

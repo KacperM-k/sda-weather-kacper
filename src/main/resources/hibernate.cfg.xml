@@ -9,6 +9,7 @@
         <property name="show_sql">true</property>
         <property name="format_sql">false</property>
         <property name="use.sql_comments">true</property>
+<!--        todo pass a correct value-->
         <mapping class = "com.sda.hibernate.entity.Location"></mapping>
 
     </session-factory>

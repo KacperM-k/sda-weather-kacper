@@ -1,5 +1,9 @@
 package com.sda.weather;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationController {
@@ -19,15 +23,18 @@ public class LocationController {
     }
 
 
-    public List<String> showAllLocations() {
+    public String showAllLocations() {
         List<Location> locations = locationService.showAllLocations();
-//      List<String> jasons = null;
-//
-//      locations.stream()
-//               .map(l -> jasons.add(String.format("{\"id\": %s, \"cityname\": \"%s\", \"region\": \"%s\", \"countryname\": \"%s\", \"longitude\": \"%s\", \"latitude\": \"%s\"}",
-//                        l.getId(), l.getCityname(), l.getRegion(), l.getCountryname(), l.getLongitude(), l.getLatitude())));
-//
-//        return jasons;
-        return null;
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(locations);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return json;
     }
+
 }
+

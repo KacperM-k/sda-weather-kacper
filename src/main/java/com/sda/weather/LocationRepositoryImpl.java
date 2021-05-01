@@ -40,4 +40,21 @@ public class LocationRepositoryImpl implements LocationRepository {
 
         return locations;
     }
+
+    @Override
+    public Location getLocation(Long id, String cityname){
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        Location getlocation = session.createQuery("Select l FROM Location AS l WHERE l.id = :id OR l.cityname = :cityname", Location.class)
+                .setParameter("id", id )
+                .setParameter("cityname", cityname)
+                .getSingleResult();
+
+        transaction.commit();
+        session.close();
+
+        return getlocation;
+
+    }
 }

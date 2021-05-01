@@ -35,6 +35,7 @@ public class UserInterface {
                     showAllLocations();
                     break;
                 case 3:
+                    showInfoAboutWeather();
                     break;
                 case 0:
                     return;
@@ -86,6 +87,17 @@ public class UserInterface {
         System.out.println("Lokalizacje znajdujące się w bazie danych: ");
         locationController.showAllLocations();
         System.out.println();
+    }
+
+    private void showInfoAboutWeather(){
+        System.out.print("Type id: \n");
+        Long id = scan.nextLong();
+        System.out.print("Type city name: \n");
+        String cityname = scan.nextLine();
+
+        String response = locationController.showInfoAboutWeather(id, cityname);
+        System.out.println("Information about weather: " + response);
+
     }
 
 

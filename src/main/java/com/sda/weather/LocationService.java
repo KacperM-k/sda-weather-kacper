@@ -1,5 +1,10 @@
 package com.sda.weather;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 public class LocationService {
@@ -21,13 +26,13 @@ public class LocationService {
             throw new RuntimeException("Longitude is required");
         }
         if (longitude < -180 || longitude > 180) {
-            throw new RuntimeException("The longitude is invalid, the required value is between -180 to 180");
+            throw new RuntimeException("The longitude is invalid, the required value is between -180 and 180");
         }
         if (latitude == null) {
             throw new RuntimeException("Latitude is required");
         }
         if (latitude < -90 || latitude > 90) {
-            throw new RuntimeException("The latitude is invalid, the required value is between -90 to 90");
+            throw new RuntimeException("The latitude is invalid, the required value is between -90 and 90");
         }
 
         Location location = new Location(cityname, countryname, longitude, latitude);
@@ -49,5 +54,46 @@ public class LocationService {
                 l.getId(), l.getCityname(), l.getRegion(), l.getCountryname(), l.getLongitude(), l.getLatitude()));
 
         return locations;
+    }
+
+    public String getInfoAboutWeather(Long id, String cityname) {
+        if (id == null && cityname == null) {
+            throw new RuntimeException("Incorrect data: id or cityname required.");
+        }
+
+        Location location = locationRepository.getLocation(id, cityname);
+
+        if (location == null) {
+            throw new RuntimeException("This city is not in the database");
+        }
+
+        String url1 = "api.openweathermap.org/data/2.5/weather?q="+location.getCityname()+"&appid=4bd569befe2b8c41377df8867200bc9e";
+        String json = makeRequest(url1);
+
+
+
+        return json;
+
+
+    }
+
+    private String makeRequest(String url) {
+        String responseBody = null;
+        try {
+            HttpRequest httpRequest = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(URI.create(url))
+                    .build();
+
+            HttpClient httpClient = HttpClient.newHttpClient();
+            HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            responseBody = httpResponse.body();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return responseBody;
     }
 }

@@ -9,6 +9,7 @@ import java.util.List;
 public class LocationController {
 
     private LocationService locationService;
+    ObjectMapper objectMapper = new ObjectMapper();
 
     public LocationController(LocationService locationService) {
         this.locationService = locationService;
@@ -25,7 +26,6 @@ public class LocationController {
 
     public String showAllLocations() {
         List<Location> locations = locationService.showAllLocations();
-        ObjectMapper objectMapper = new ObjectMapper();
 
         String json = null;
         try {
@@ -34,6 +34,10 @@ public class LocationController {
             e.printStackTrace();
         }
         return json;
+    }
+
+    public String showInfoAboutWeather(Long id, String cityname){
+        return locationService.getInfoAboutWeather(id, cityname);
     }
 
 }

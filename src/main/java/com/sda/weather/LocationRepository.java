@@ -7,4 +7,6 @@ public interface LocationRepository {
     Location save (Location location);
 
     List<Location> showAllLocations();
+
+    Location getLocation(Long id, String cityname);
 }

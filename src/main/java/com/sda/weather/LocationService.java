@@ -67,8 +67,8 @@ public class LocationService {
             throw new RuntimeException("This city is not in the database");
         }
 
-        String url1 = "api.openweathermap.org/data/2.5/weather?q="+location.getCityname()+"&appid=4bd569befe2b8c41377df8867200bc9e";
-        String json = makeRequest(url1);
+        String uri1 = "http://api.openweathermap.org/data/2.5/weather?q="+location.getCityname()+"&appid=4bd569befe2b8c41377df8867200bc9e";
+        String json = makeRequest(uri1);
 
 
 
@@ -77,12 +77,12 @@ public class LocationService {
 
     }
 
-    private String makeRequest(String url) {
+    private String makeRequest(String uri) {
         String responseBody = null;
         try {
             HttpRequest httpRequest = HttpRequest.newBuilder()
                     .GET()
-                    .uri(URI.create(url))
+                    .uri(URI.create(uri))
                     .build();
 
             HttpClient httpClient = HttpClient.newHttpClient();

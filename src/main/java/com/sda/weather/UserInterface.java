@@ -96,7 +96,8 @@ public class UserInterface {
         String cityname = scan.nextLine();
 
         String response = locationController.showInfoAboutWeather(id, cityname);
-        System.out.println("Information about weather: " + response);
+        System.out.println("Information about weather: \n" + response);
+        System.out.println();
 
     }
 

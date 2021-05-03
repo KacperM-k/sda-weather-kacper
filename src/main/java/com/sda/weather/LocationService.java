@@ -68,12 +68,12 @@ public class LocationService {
         }
 
         String uri1 = "http://api.openweathermap.org/data/2.5/weather?q="+location.getCityname()+"&appid=4bd569befe2b8c41377df8867200bc9e";
-        String json = makeRequest(uri1);
+        String uri2 = "http://api.weatherstack.com/current?access_key=8fc1775cc891f959446e8e12c20ae86f&query="+location.getCityname();
 
+        //TODO wyciągnięcie z json'ów informacji i uśrednienie wartości,
+        // sformatowanie danych do wyświetlenia dla użytkownika
 
-
-        return json;
-
+        return  makeRequest(uri1)+ "\n" + makeRequest(uri2);
 
     }
 

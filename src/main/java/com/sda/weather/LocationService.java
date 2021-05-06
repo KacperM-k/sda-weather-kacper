@@ -1,5 +1,7 @@
 package com.sda.weather;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -67,17 +69,30 @@ public class LocationService {
             throw new RuntimeException("This city is not in the database");
         }
 
-        String uri1 = "http://api.openweathermap.org/data/2.5/weather?q="+location.getCityname()+"&appid=4bd569befe2b8c41377df8867200bc9e";
-        String uri2 = "http://api.weatherstack.com/current?access_key=8fc1775cc891f959446e8e12c20ae86f&query="+location.getCityname();
+        String uri1 = "http://api.openweathermap.org/data/2.5/weather?q=" + location.getCityname() + "&appid=4bd569befe2b8c41377df8867200bc9e";
+        String uri2 = "http://api.weatherstack.com/current?access_key=8fc1775cc891f959446e8e12c20ae86f&query=" + location.getCityname();
 
         //TODO wyciągnięcie z json'ów informacji i uśrednienie wartości,
         // sformatowanie danych do wyświetlenia dla użytkownika
 
-        return  makeRequest(uri1)+ "\n" + makeRequest(uri2);
+        Gson gson = new Gson();
+        OpenWeatherInfo openWeatherInfo = gson.fromJson(getResponseBody(uri1), OpenWeatherInfo.class);
+        WeatherStackInfo weatherStackInfo = gson.fromJson(getResponseBody(uri2), WeatherStackInfo.class);
 
+        double temperature = (weatherStackInfo.getTemperature() + openWeatherInfo.getTemp()) / 2;
+        double pressure = (weatherStackInfo.getPressure() + openWeatherInfo.getPressure()) / 2;
+        double humidity = (weatherStackInfo.getHumidity() + openWeatherInfo.getHumidity()) / 2;
+        double windspeed = (weatherStackInfo.getWind_speed() + openWeatherInfo.getSpeed()) / 2;
+        double winddegree = (weatherStackInfo.getWind_degree() + openWeatherInfo.getDeg()) / 2;
+        String wind = "Speed: " + windspeed + ", degree: " + winddegree;
+
+        LocationDTO locationDTO = new LocationDTO(location.getCityname(), temperature, pressure, humidity, wind);
+
+        System.out.println(locationDTO);
+        return getResponseBody(uri1)+ "\n" + getResponseBody(uri2);
     }
 
-    private String makeRequest(String uri) {
+    private String getResponseBody(String uri) {
         String responseBody = null;
         try {
             HttpRequest httpRequest = HttpRequest.newBuilder()

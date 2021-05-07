@@ -33,7 +33,6 @@ public class LocationRepositoryImpl implements LocationRepository {
         Transaction transaction = session.beginTransaction();
 
         location.addWeatherInfo(weather);
-        session.persist(location);
 
         transaction.commit();
         session.close();

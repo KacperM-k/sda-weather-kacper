@@ -28,6 +28,20 @@ public class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
+    public void addWeatherInfoToLocation(Location location, Weather weather) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+        location.addWeatherInfo(weather);
+        session.persist(location);
+
+        transaction.commit();
+        session.close();
+
+
+    }
+
+    @Override
     public List<Location> showAllLocations() {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();

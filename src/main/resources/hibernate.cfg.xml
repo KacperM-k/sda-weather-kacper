@@ -10,6 +10,7 @@
         <property name="format_sql">false</property>
         <property name="use.sql_comments">true</property>
         <mapping class = "com.sda.weather.Location"></mapping>
+        <mapping class = "com.sda.weather.Weather"></mapping>
 
     </session-factory>
 </hibernate-configuration>

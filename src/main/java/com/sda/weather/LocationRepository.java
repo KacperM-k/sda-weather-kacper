@@ -6,6 +6,8 @@ public interface LocationRepository {
 
     Location save (Location location);
 
+    void addWeatherInfoToLocation(Location location, Weather weather);
+
     List<Location> showAllLocations();
 
     Location getLocation(Long id, String cityname);

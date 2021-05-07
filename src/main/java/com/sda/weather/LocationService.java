@@ -1,6 +1,10 @@
 package com.sda.weather;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sda.weather.gsonclasses.open_weather_api.OpenWeatherInfo;
+import com.sda.weather.gsonclasses.weather_stack_api.WeatherStackInfo;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +14,8 @@ import java.net.http.HttpResponse;
 import java.util.List;
 
 public class LocationService {
+
+    ObjectMapper objectMapper = new ObjectMapper();
 
     private LocationRepository locationRepository;
 
@@ -75,20 +81,24 @@ public class LocationService {
         //TODO wyciągnięcie z json'ów informacji i uśrednienie wartości,
         // sformatowanie danych do wyświetlenia dla użytkownika
 
-        Gson gson = new Gson();
-        OpenWeatherInfo openWeatherInfo = gson.fromJson(getResponseBody(uri1), OpenWeatherInfo.class);
-        WeatherStackInfo weatherStackInfo = gson.fromJson(getResponseBody(uri2), WeatherStackInfo.class);
+        try {
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            OpenWeatherInfo openWeatherInfo = objectMapper.readValue(getResponseBody(uri1), OpenWeatherInfo.class);
+            WeatherStackInfo weatherStackInfo = objectMapper.readValue(getResponseBody(uri2), WeatherStackInfo.class);
 
-        double temperature = (weatherStackInfo.getTemperature() + openWeatherInfo.getTemp()) / 2;
-        double pressure = (weatherStackInfo.getPressure() + openWeatherInfo.getPressure()) / 2;
-        double humidity = (weatherStackInfo.getHumidity() + openWeatherInfo.getHumidity()) / 2;
-        double windspeed = (weatherStackInfo.getWind_speed() + openWeatherInfo.getSpeed()) / 2;
-        double winddegree = (weatherStackInfo.getWind_degree() + openWeatherInfo.getDeg()) / 2;
-        String wind = "Speed: " + windspeed + ", degree: " + winddegree;
+            double KELVIN_CONST = 273.15;
+            double temperature = (openWeatherInfo.getMain().getTemp() - KELVIN_CONST + weatherStackInfo.getCurrent().getTemperature()) / 2 ;
+            double pressure = (openWeatherInfo.getMain().getPressure() + weatherStackInfo.getCurrent().getPressure()) / 2;
+            double humidity = (openWeatherInfo.getMain().getHumidity() + weatherStackInfo.getCurrent().getHumidity()) / 2;
+            double windspeed = (openWeatherInfo.getWind().getSpeed() + (weatherStackInfo.getCurrent().getWind_speed() * 1000 / 3600 )) / 2;
+            double winddegree = (openWeatherInfo.getWind().getDeg() + weatherStackInfo.getCurrent().getWind_degree()) / 2;
 
-        LocationDTO locationDTO = new LocationDTO(location.getCityname(), temperature, pressure, humidity, wind);
+            LocationDTO locationDTO = new LocationDTO(location.getCityname(), temperature, pressure, humidity, windspeed, winddegree);
 
-        System.out.println(locationDTO);
+            System.out.println(locationDTO);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
         return getResponseBody(uri1)+ "\n" + getResponseBody(uri2);
     }
 

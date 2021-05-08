@@ -3,8 +3,8 @@ package com.sda.weather;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sda.weather.gsonclasses.open_weather_info.OpenWeatherInfo;
-import com.sda.weather.gsonclasses.weather_stack_info.WeatherStackInfo;
+import com.sda.weather.gsonclasses.open_weather_api.OpenWeatherInfo;
+import com.sda.weather.gsonclasses.weather_stack_api.WeatherStackInfo;
 
 import java.io.IOException;
 import java.net.URI;

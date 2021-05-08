@@ -1,4 +1,4 @@
-package com.sda.weather.gsonclasses.weather_stack_info;
+package com.sda.weather.gsonclasses.weather_stack_api;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

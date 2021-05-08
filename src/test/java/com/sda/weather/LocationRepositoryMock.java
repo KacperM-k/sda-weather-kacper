@@ -15,4 +15,14 @@ public class LocationRepositoryMock implements LocationRepository {
     public List<Location> showAllLocations() {
         return null;
     }
+
+    @Override
+    public void addWeatherInfoToLocation(Location location, Weather weather) {
+
+    }
+
+    @Override
+    public Location getLocation(Long id, String cityname) {
+        return null;
+    }
 }

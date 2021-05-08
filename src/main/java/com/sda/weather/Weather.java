@@ -19,8 +19,8 @@ public class Weather {
     private Double temperature;
     private Double pressure;
     private Double humidity;
-    private Double wind_speed;
-    private Double wind_degree;
+    private Double wind_speed;  // todo rename to windSpeed
+    private Double wind_degree; // todo rename to windDegree
     private Instant createDate;
     @ManyToOne
     Location location;

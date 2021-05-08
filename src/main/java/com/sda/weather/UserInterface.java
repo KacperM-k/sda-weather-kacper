@@ -95,6 +95,8 @@ public class UserInterface {
         System.out.print("Type city name: \n");
         String cityname = scan.nextLine();
 
+        // todo pass id and forecast date only
+        // todo use WeatherController instead of LocationService
         locationController.showInfoAboutWeather(id, cityname);
         System.out.println();
 

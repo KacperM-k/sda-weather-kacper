@@ -63,7 +63,7 @@ public class LocationService {
         return locationRepository.showAllLocations();
     }
 
-    public String getInfoAboutWeather(Long id, String cityname) {
+    public Weather getInfoAboutWeather(Long id, String cityname) {
         if (id == null && cityname == null) {
             throw new RuntimeException("Incorrect data: id or cityname required.");
         }
@@ -73,6 +73,11 @@ public class LocationService {
         if (location == null) {
             throw new RuntimeException("This city is not in the database");
         }
+
+        // todo use https://openweathermap.org/api only
+        //  fetch data about forecast
+        //  use a forecast for a specific date and time
+        //  store it in your Weather object
 
         String uri1 = "http://api.openweathermap.org/data/2.5/weather?q=" + location.getCityname() + "&appid=4bd569befe2b8c41377df8867200bc9e";
         String uri2 = "http://api.weatherstack.com/current?access_key=8fc1775cc891f959446e8e12c20ae86f&query=" + location.getCityname();
@@ -99,7 +104,8 @@ public class LocationService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        return getResponseBody(uri1) + "\n" + getResponseBody(uri2);
+
+        return null; // todo
     }
 
     private String getResponseBody(String uri) {

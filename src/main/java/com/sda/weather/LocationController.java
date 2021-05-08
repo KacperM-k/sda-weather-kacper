@@ -35,9 +35,14 @@ public class LocationController {
         }
     }
 
-    public String showInfoAboutWeather(Long id, String cityname){
-        return locationService.getInfoAboutWeather(id, cityname);
+    public String showInfoAboutWeather(Long id, String cityname) {
+        try {
+            // todo use WeatherService
+            Weather weather = locationService.getInfoAboutWeather(id, cityname);
+            return objectMapper.writeValueAsString(weather);
+        } catch (JsonProcessingException e) {
+            return String.format("{\"error\": \"%s\"}", e.getMessage());
+        }
     }
-
 }
 

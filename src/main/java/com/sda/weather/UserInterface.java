@@ -94,7 +94,9 @@ public class UserInterface {
         System.out.print("Type city name: \n");
         String cityname = scan.nextLine();
 
+        locationController.showInfoAboutWeather(id, cityname);
         System.out.println();
+
     }
 }
 

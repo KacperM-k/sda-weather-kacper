@@ -38,5 +38,9 @@ public class LocationController {
         return json;
     }
 
+    public String showInfoAboutWeather(Long id, String cityname){
+        return locationService.getInfoAboutWeather(id, cityname);
+    }
+
 }
 

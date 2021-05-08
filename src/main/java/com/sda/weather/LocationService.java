@@ -96,7 +96,7 @@ public class LocationService {
 
 
             Weather weather = new Weather(temperature, pressure, humidity, windspeed, winddegree, getActualDateTime());
-            locationRepository.addWeatherInfoToLocation(location, weather);
+//            locationRepository.addWeatherInfoToLocation(location, weather);
 
             LocationDTO locationDTO = new LocationDTO(location.getCityname(), temperature, pressure, humidity, windspeed, winddegree);
             System.out.println(locationDTO);

@@ -53,8 +53,6 @@ public class LocationRepositoryImpl implements LocationRepository {
 
     }
 
-
-
     @Override
     public Location getLocation(Long id, String cityname){
         Session session = sessionFactory.openSession();

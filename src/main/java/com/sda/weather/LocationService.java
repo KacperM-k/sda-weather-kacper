@@ -9,10 +9,10 @@ public class LocationService {
     }
 
     public Location createNewLocation(String cityName, String region, String countryName, Double longitude, Double latitude) {
-        if (cityName == null) { // todo check a value cityName.isEmpty() cityName.isBlank()
+        if (cityName == null || cityName.isBlank()) {
             throw new RuntimeException("City name is required");
         }
-        if (countryName == null) {
+        if (countryName == null || countryName.isBlank()) {
             throw new RuntimeException("Country name is required");
         }
         if (longitude == null) {
@@ -34,8 +34,8 @@ public class LocationService {
             location.setRegion(region);
         }
 
-        Location savedLocation = locationRepository.save(location);
+        return locationRepository.save(location);
 
-        return savedLocation;
+
     }
 }

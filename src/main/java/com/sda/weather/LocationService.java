@@ -1,5 +1,7 @@
 package com.sda.weather;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.List;
 
 public class LocationService {

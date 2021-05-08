@@ -3,6 +3,8 @@ package com.sda.weather;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
+
 public class LocationController {
 
     private LocationService locationService;
@@ -23,5 +25,18 @@ public class LocationController {
         }
         return json;
     }
+
+    public String showAllLocations() {
+        List<Location> locations = locationService.showAllLocations();
+
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(locations);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
 }
 

@@ -27,15 +27,12 @@ public class LocationController {
     }
 
     public String showAllLocations() {
-        List<Location> locations = locationService.showAllLocations();
-
-        String json = null;
         try {
-            json = objectMapper.writeValueAsString(locations);
+            List<Location> locations = locationService.showAllLocations();
+            return objectMapper.writeValueAsString(locations);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            return String.format("{\"error\": \"%s\"}", e.getMessage());
         }
-        return json;
     }
 
     public String showInfoAboutWeather(Long id, String cityname){

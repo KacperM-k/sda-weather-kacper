@@ -82,13 +82,14 @@ public class UserInterface {
         return latitude;
     }
 
-    private void showAllLocations(){
+    private void showAllLocations() {
+        String httpResponseBody = locationController.showAllLocations();
         System.out.println("Lokalizacje znajdujące się w bazie danych: ");
-        locationController.showAllLocations();
+        System.out.println(httpResponseBody);
         System.out.println();
     }
 
-    private void showInfoAboutWeather(){
+    private void showInfoAboutWeather() {
         System.out.print("Type id: \n");
         Long id = scan.nextLong();
         System.out.print("Type city name: \n");

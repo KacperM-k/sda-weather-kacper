@@ -84,6 +84,7 @@ public class UserInterface {
 
     private void showAllLocations(){
         System.out.println("Lokalizacje znajdujące się w bazie danych: ");
+        locationController.showAllLocations();
         System.out.println();
     }
 

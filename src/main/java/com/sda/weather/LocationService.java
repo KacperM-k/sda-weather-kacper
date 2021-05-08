@@ -1,5 +1,7 @@
 package com.sda.weather;
 
+import java.util.List;
+
 public class LocationService {
 
     private LocationRepository locationRepository;
@@ -36,6 +38,14 @@ public class LocationService {
 
         return locationRepository.save(location);
 
+    }
 
+    public List<Location> showAllLocations() {
+        List<Location> locations = locationRepository.showAllLocations();
+
+        locations.forEach(l -> System.out.format("Id: %s, City: %s, Region: %S, Country: %s, Longtiude: %s, Latitiude: %s\n",
+                l.getId(), l.getCityname(), l.getRegion(), l.getCountryname(), l.getLongitude(), l.getLatitude()));
+
+        return locations;
     }
 }

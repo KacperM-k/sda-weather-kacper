@@ -21,7 +21,5 @@ public class WeatherApplication {
 
         UserInterface userInterface = new UserInterface(locationController);
         userInterface.runAplication();
-
     }
-
 }

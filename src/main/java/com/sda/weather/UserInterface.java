@@ -44,7 +44,6 @@ public class UserInterface {
     }
 
     private void addNewLocation() {
-
         System.out.print("Type city name: \n");
         String cityname = scan.nextLine();
         System.out.print("Type region (optional): \n");
@@ -85,7 +84,6 @@ public class UserInterface {
 
     private void showAllLocations(){
         System.out.println("Lokalizacje znajdujące się w bazie danych: ");
-        locationController.showAllLocations();
         System.out.println();
     }
 
@@ -95,11 +93,7 @@ public class UserInterface {
         System.out.print("Type city name: \n");
         String cityname = scan.nextLine();
 
-        locationController.showInfoAboutWeather(id, cityname);
         System.out.println();
-
     }
-
-
 }
 

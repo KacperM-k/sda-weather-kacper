@@ -1,10 +1,6 @@
 package com.sda.weather;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LocationController {
 
@@ -15,30 +11,11 @@ public class LocationController {
         this.locationService = locationService;
     }
 
-    public String addNewLocation(String cityname, String region, String countryname, Double longitude, Double latitude) {
+    public String addNewLocation(String cityname, String region, String countryName, Double longitude, Double latitude) {
+        Location newLocation = locationService.createNewLocation(cityname, region, countryName, longitude, latitude);
 
-        Location newLocation = locationService.createNewLocation(cityname, region, countryname, longitude, latitude);
-
-        return String.format("{\"id\": %s, \"cityname\": \"%s\", \"region\": \"%s\", \"countryname\": \"%s\", \"longitude\": \"%s\", \"latitude\": \"%s\"}",
-                newLocation.getId(), newLocation.getCityname(), newLocation.getRegion(), newLocation.getCountryname(), newLocation.getLongitude(), newLocation.getLatitude());
+        return String.format("{\"id\": %s, \"cityname\": \"%s\", \"region\": \"%s\", \"countryName\": \"%s\", \"longitude\": \"%s\", \"latitude\": \"%s\"}",
+                newLocation.getId(), newLocation.getCityname(), newLocation.getRegion(), newLocation.getCountryname(), newLocation.getLongitude(), newLocation.getLatitude());  // todo use objectMapper
     }
-
-
-    public String showAllLocations() {
-        List<Location> locations = locationService.showAllLocations();
-
-        String json = null;
-        try {
-            json = objectMapper.writeValueAsString(locations);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
-    public String showInfoAboutWeather(Long id, String cityname){
-        return locationService.getInfoAboutWeather(id, cityname);
-    }
-
 }
 

@@ -1,5 +1,6 @@
-package com.sda.weather;
+package com.sda.weather.weather;
 
+import com.sda.weather.location.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,18 +20,19 @@ public class Weather {
     private Double temperature;
     private Double pressure;
     private Double humidity;
-    private Double wind_speed;  // todo rename to windSpeed
-    private Double wind_degree; // todo rename to windDegree
-    private Instant createDate;
-    @ManyToOne
-    Location location;
+    private Double windSpeed;
+    private Double windDegree;
+    private Long time;
+//    private Instant createDate;
+//    @ManyToOne
+//    Location location;
 
-    public Weather(Double temperature, Double pressure, Double humidity, Double wind_speed, Double wind_degree, Instant createDate) {
+    public Weather(Double temperature, Double pressure, Double humidity, Double wind_speed, Double wind_degree, Long time) {
         this.temperature = temperature;
         this.pressure = pressure;
         this.humidity = humidity;
-        this.wind_speed = wind_speed;
-        this.wind_degree = wind_degree;
-        this.createDate = createDate;
+        this.windSpeed = wind_speed;
+        this.windDegree = wind_degree;
+        this.time = time;
     }
 }

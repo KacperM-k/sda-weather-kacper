@@ -1,5 +1,6 @@
-package com.sda.weather;
+package com.sda.weather.location;
 
+import com.sda.weather.weather.Weather;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,8 +27,8 @@ public class Location {
     private Double longitude;
     @Column(nullable = false)
     private Double latitude;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
-    Set<Weather> infoAboutWeather = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "location")
+//    Set<Weather> infoAboutWeather = new HashSet<>();
 
     public Location(String cityname, String countryname, Double longitude, Double latitude) {
         this.cityname = cityname;
@@ -36,10 +37,10 @@ public class Location {
         this.latitude = latitude;
     }
 
-    public void addWeatherInfo(Weather weather){
-        weather.setLocation(this);
-        infoAboutWeather.add(weather);
-    }
+//    public void addWeatherInfo(Weather weather){
+//        weather.setLocation(this);
+//        infoAboutWeather.add(weather);
+//    }
 
     
 

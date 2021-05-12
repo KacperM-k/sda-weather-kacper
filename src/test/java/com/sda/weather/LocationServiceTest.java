@@ -1,5 +1,8 @@
 package com.sda.weather;
 
+import com.sda.weather.location.Location;
+import com.sda.weather.location.LocationRepository;
+import com.sda.weather.location.LocationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

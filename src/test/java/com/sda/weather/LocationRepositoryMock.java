@@ -1,5 +1,8 @@
 package com.sda.weather;
 
+import com.sda.weather.location.Location;
+import com.sda.weather.location.LocationRepository;
+
 import java.util.List;
 
 public class LocationRepositoryMock implements LocationRepository {
@@ -16,13 +19,4 @@ public class LocationRepositoryMock implements LocationRepository {
         return null;
     }
 
-    @Override
-    public void addWeatherInfoToLocation(Location location, Weather weather) {
-
-    }
-
-    @Override
-    public Location getLocation(Long id, String cityname) {
-        return null;
-    }
 }

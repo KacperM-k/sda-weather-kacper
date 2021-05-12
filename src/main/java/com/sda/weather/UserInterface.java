@@ -1,15 +1,19 @@
 package com.sda.weather;
 
-import java.util.List;
+import com.sda.weather.location.LocationController;
+import com.sda.weather.weather.WeatherController;
+
 import java.util.Scanner;
 
 public class UserInterface {
 
     LocationController locationController;
+    WeatherController weatherController;
     Scanner scan = new Scanner(System.in);
 
-    public UserInterface(LocationController locationController) {
+    public UserInterface(LocationController locationController, WeatherController weatherController) {
         this.locationController = locationController;
+        this.weatherController = weatherController;
     }
 
     public void runAplication() {
@@ -97,8 +101,8 @@ public class UserInterface {
 
         // todo pass id and forecast date only
         // todo use WeatherController instead of LocationService
-        locationController.showInfoAboutWeather(id, cityname);
-        System.out.println();
+        String httpResponseBody = weatherController.showInfoAboutWeather(id);
+        System.out.println(httpResponseBody);
 
     }
 }

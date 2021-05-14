@@ -22,15 +22,14 @@ public class Weather {
     private Double humidity;
     private Double windSpeed;
     private Double windDegree;
-    private Long time;
-    private Instant createDate;
+    private String date;
 
-    public Weather(Double temperature, Double pressure, Double humidity, Double wind_speed, Double wind_degree, Long time) {
+    public Weather(Double temperature, Double pressure, Double humidity, Double wind_speed, Double wind_degree, String date) {
         this.temperature = temperature;
         this.pressure = pressure;
         this.humidity = humidity;
         this.windSpeed = wind_speed;
         this.windDegree = wind_degree;
-        this.time = time;
+        this.date = date;
     }
 }

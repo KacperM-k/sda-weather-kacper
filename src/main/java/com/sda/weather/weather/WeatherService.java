@@ -12,12 +12,15 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class WeatherService {
 
@@ -69,8 +72,9 @@ public class WeatherService {
                 double windSpeed = openWeatherInfo.getDaily()[i].getWind_speed();
                 double windDegree = openWeatherInfo.getDaily()[i].getWind_deg();
                 long time = openWeatherInfo.getDaily()[i].getDt();
+                String date = changeUnixToDate(time);
 
-                weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, time);
+                weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, date);
 //                weatherRepository.addWeatherInfoToLocation(location, weather);
                 weatherList.add(weather);
             }
@@ -130,6 +134,13 @@ public class WeatherService {
         }
 
         return instant;
+    }
+
+    private String changeUnixToDate(long unix){
+        Date date = new Date(unix*1000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-0"));
+        return sdf.format(date);
     }
 
 }

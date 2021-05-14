@@ -26,7 +26,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
 //    }
 
     @Override
-    public Location getLocation(Long id){
+    public Location getLocation(Long id, Integer days){
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 

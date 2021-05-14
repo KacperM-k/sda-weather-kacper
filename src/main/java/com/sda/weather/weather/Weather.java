@@ -23,9 +23,7 @@ public class Weather {
     private Double windSpeed;
     private Double windDegree;
     private Long time;
-//    private Instant createDate;
-//    @ManyToOne
-//    Location location;
+    private Instant createDate;
 
     public Weather(Double temperature, Double pressure, Double humidity, Double wind_speed, Double wind_degree, Long time) {
         this.temperature = temperature;

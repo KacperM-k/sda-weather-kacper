@@ -6,6 +6,6 @@ public interface WeatherRepository {
 
 //    public void addWeatherInfoToLocation(Location location, Weather weather);
 
-    public Location getLocation(Long id);
+    public Location getLocation(Long id, Integer days);
 
 }

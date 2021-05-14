@@ -96,12 +96,10 @@ public class UserInterface {
     private void showInfoAboutWeather() {
         System.out.print("Type id: \n");
         Long id = scan.nextLong();
-        System.out.print("Type city name: \n");
-        String cityname = scan.nextLine();
+        System.out.print("For how many days ahead do you want to check the weather forecast?\n(The weather forecast is available for 7 days ahead.)\n");
+        Integer days = scan.nextInt();
 
-        // todo pass id and forecast date only
-        // todo use WeatherController instead of LocationService
-        String httpResponseBody = weatherController.showInfoAboutWeather(id);
+        String httpResponseBody = weatherController.showInfoAboutWeather(id, days);
         System.out.println(httpResponseBody);
 
     }

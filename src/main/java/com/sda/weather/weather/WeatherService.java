@@ -29,23 +29,25 @@ public class WeatherService {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public List<Weather> getInfoAboutWeather(Long id) {
+    public List<Weather> getInfoAboutWeatherForecast(Long id, Integer days) {
         Weather weather = null;
         List<Weather> weatherList = new ArrayList<>();
 
         if (id == null) {
-            throw new RuntimeException("Incorrect data: id or cityname required.");
+            throw new RuntimeException("Incorrect data: id or city name required.");
         }
 
-        Location location = weatherRepository.getLocation(id);
+        if (days < 1 || days > 7) {
+            throw new RuntimeException("You can check the weather forecast only for 7 days ahead ");
+        }
+
+        Location location = weatherRepository.getLocation(id, days);
 
         if (location == null) {
             throw new RuntimeException("This city is not in the database");
         }
 
-        // todo use https://openweathermap.org/api only
-        //  fetch data about forecast
-        //  use a forecast for a specific date and time
+        //TODO
         //  store it in your Weather object
 
         String uri1 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + location.getLatitude() +
@@ -58,7 +60,7 @@ public class WeatherService {
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             OpenWeatherInfo openWeatherInfo = objectMapper.readValue(getResponseBody(uri1), OpenWeatherInfo.class);
 
-            for(int i = 0; i < 8; i++ ) {
+            for(int i = 1; i <= days; i++ ) {
 
                 double KELVIN_CONST = 273.15;
                 double temperature = openWeatherInfo.getDaily()[i].getTemp().getDay() - KELVIN_CONST;
@@ -67,15 +69,12 @@ public class WeatherService {
                 double windSpeed = openWeatherInfo.getDaily()[i].getWind_speed();
                 double windDegree = openWeatherInfo.getDaily()[i].getWind_deg();
                 long time = openWeatherInfo.getDaily()[i].getDt();
+
                 weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, time);
+//                weatherRepository.addWeatherInfoToLocation(location, weather);
                 weatherList.add(weather);
             }
 
-
-
-//            locationRepository.addWeatherInfoToLocation(location, weather);
-
-//            LocationDTO locationDTO = new LocationDTO(location.getCityname(), temperature, pressure, humidity, windSpeed, windDegree);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();

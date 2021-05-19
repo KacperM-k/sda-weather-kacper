@@ -21,7 +21,7 @@ public class LocationController {
         try {
             json = objectMapper.writeValueAsString(newLocation);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            e.printStackTrace();    // todo you can return String.format("{\"error\": \"%s\"}", e.getMessage());
         }
         return json;
     }

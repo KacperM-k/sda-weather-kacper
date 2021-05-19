@@ -33,7 +33,6 @@ public class WeatherService {
     ObjectMapper objectMapper = new ObjectMapper();
 
     public List<Weather> getInfoAboutWeatherForecast(Long id, Integer days) {
-        Weather weather = null;
         List<Weather> weatherList = new ArrayList<>();
 
         if (id == null) {
@@ -49,9 +48,6 @@ public class WeatherService {
         if (location == null) {
             throw new RuntimeException("This city is not in the database");
         }
-
-        //TODO
-        //  store it in your Weather object
 
         String uri1 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + location.getLatitude() +
                 "&lon=" + location.getLongitude() + "&exclude=current,hourly,minutely,alert&appid=4bd569befe2b8c41377df8867200bc9e";
@@ -74,11 +70,11 @@ public class WeatherService {
                 long time = openWeatherInfo.getDaily()[i].getDt();
                 String date = changeUnixToDate(time);
 
-                weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, date);
-//                weatherRepository.addWeatherInfoToLocation(location, weather);
+                Weather weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, date);
                 weatherList.add(weather);
             }
 
+            weatherRepository.addWeatherInfoToDatabase(location, weatherList);
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();

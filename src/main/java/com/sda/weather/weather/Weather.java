@@ -23,6 +23,8 @@ public class Weather {
     private Double windSpeed;
     private Double windDegree;
     private String date;
+    @ManyToOne
+    Location location;
 
     public Weather(Double temperature, Double pressure, Double humidity, Double wind_speed, Double wind_degree, String date) {
         this.temperature = temperature;

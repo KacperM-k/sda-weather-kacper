@@ -27,6 +27,9 @@ public class Location {
     private Double longitude;
     @Column(nullable = false)
     private Double latitude;
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER,
+            mappedBy = "location")
+    Set<Weather> weatherList = new HashSet<>();
 
     public Location(String cityname, String countryname, Double longitude, Double latitude) {
         this.cityname = cityname;
@@ -35,7 +38,10 @@ public class Location {
         this.latitude = latitude;
     }
 
+    public void addWeatherInfo(Weather weather){
+        weatherList.add(weather);
+        weather.setLocation(this);
+    }
 
-    
 
 }

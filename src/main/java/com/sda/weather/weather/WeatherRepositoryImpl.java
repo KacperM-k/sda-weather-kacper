@@ -5,6 +5,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import java.util.List;
+
 public class WeatherRepositoryImpl implements WeatherRepository {
 
     private SessionFactory sessionFactory;
@@ -13,25 +15,30 @@ public class WeatherRepositoryImpl implements WeatherRepository {
         this.sessionFactory = sessionFactory;
     }
 
-//    @Override
-//    public void addWeatherInfoToLocation(Location location, Weather weather) {
-//        Session session = sessionFactory.openSession();
-//        Transaction transaction = session.beginTransaction();
-//
-//        location.addWeatherInfo(weather);
-//
-//        transaction.commit();
-//        session.close();
-//
-//    }
+    @Override
+    public void addWeatherInfoToDatabase(Location location, List<Weather> weatherList) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+
+
+        for (int i = 0; i < weatherList.size(); i++) {
+            location.addWeatherInfo(weatherList.get(i));
+        }
+
+        session.update(location);
+
+        transaction.commit();
+        session.close();
+
+    }
 
     @Override
-    public Location getLocation(Long id, Integer days){
+    public Location getLocation(Long id, Integer days) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
         Location getlocation = session.createQuery("Select l FROM Location AS l WHERE l.id = :id", Location.class)
-                .setParameter("id", id )
+                .setParameter("id", id)
                 .getSingleResult();
 
         transaction.commit();

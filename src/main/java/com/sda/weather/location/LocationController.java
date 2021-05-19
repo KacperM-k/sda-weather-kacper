@@ -15,15 +15,13 @@ public class LocationController {
     }
 
     public String addNewLocation(String cityname, String region, String countryName, Double longitude, Double latitude) {
-        Location newLocation = locationService.createNewLocation(cityname, region, countryName, longitude, latitude);
-        String json = null;
 
         try {
-            json = objectMapper.writeValueAsString(newLocation);
+            Location newLocation = locationService.createNewLocation(cityname, region, countryName, longitude, latitude);
+            return objectMapper.writeValueAsString(newLocation);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            return String.format("{\"error\": \"%s\"}", e.getMessage());
         }
-        return json;
     }
 
     public String showAllLocations() {
@@ -34,6 +32,5 @@ public class LocationController {
             return String.format("{\"error\": \"%s\"}", e.getMessage());
         }
     }
-
 }
 

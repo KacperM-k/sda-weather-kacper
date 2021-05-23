@@ -27,21 +27,18 @@ public class Location {
     private Double longitude;
     @Column(nullable = false)
     private Double latitude;
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER,
-            mappedBy = "location")
-    Set<Weather> weatherList = new HashSet<>();
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "location") // todo you use session.update(location) so you have to use CascadeType.ALL
+    Set<Weather> weatherList = new HashSet<>(); // todo mark as a private
 
-    public Location(String cityname, String countryname, Double longitude, Double latitude) {
+    public Location(String cityname, String countryname, Double longitude, Double latitude) {   // todo cityName, countryName or just city, country
         this.cityname = cityname;
         this.countryname = countryname;
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public void addWeatherInfo(Weather weather){
+    public void addWeatherInfo(Weather weather) {
         weatherList.add(weather);
         weather.setLocation(this);
     }
-
-
 }

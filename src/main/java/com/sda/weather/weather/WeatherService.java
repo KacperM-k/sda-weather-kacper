@@ -60,7 +60,6 @@ public class WeatherService {
             OpenWeatherInfo openWeatherInfo = objectMapper.readValue(getResponseBody(uri1), OpenWeatherInfo.class);
 
             for(int i = 1; i <= days; i++ ) {
-
                 double KELVIN_CONST = 273.15;
                 double temperature = openWeatherInfo.getDaily()[i].getTemp().getDay() - KELVIN_CONST;
                 double pressure = openWeatherInfo.getDaily()[i].getPressure();

@@ -45,21 +45,10 @@ public class LocationService {
     }
 
 
-    public List<LocationDTO> showAllLocations() {
+    public List<Location> showAllLocations() {
         List<Location> locationList = locationRepository.showAllLocations();
-        List<LocationDTO> locationDTOList = new ArrayList<>();
 
-        for(Location location: locationList) {
-            locationDTOList.add(new LocationDTO(
-                    location.getId(),
-                    location.getCityname(),
-                    location.getRegion(),
-                    location.getCountryname(),
-                    location.getLongitude(),
-                    location.getLatitude()));
-        }
-
-        return locationDTOList;
+        return locationList;
     }
 
 

@@ -25,7 +25,7 @@ public class UserInterface {
             System.out.println("What do you want to do?:");
             System.out.println("1. Add new location to database.");
             System.out.println("2. Show all locations from database.");
-            System.out.println("3. Show informations about weather.");
+            System.out.println("3. Check the weather forecast.");
             System.out.println("---------------------------------------");
             System.out.println("0. Close application;");
 

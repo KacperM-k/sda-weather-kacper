@@ -6,8 +6,7 @@ import java.util.List;
 
 public interface WeatherRepository {
 
-    void addWeatherInfoToDatabase(Location location, List<Weather> weatherList);
+    void addWeatherInfoToDatabase(Location location, Weather weather);
 
-    Location getLocation(Long id, Integer days);
-
+    Location getLocation(Long id);
 }

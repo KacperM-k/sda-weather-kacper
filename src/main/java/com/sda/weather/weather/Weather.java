@@ -25,14 +25,14 @@ public class Weather {
     private String date;
     @ManyToOne
     @JsonIgnore // todo Weather contains Location which contains Weather, which contains Location... and your log message is infinity
-    Location location; // todo mark as a private
+    private Location location;
 
-    public Weather(Double temperature, Double pressure, Double humidity, Double wind_speed, Double wind_degree, String date) {  // todo windSpeed, windDegree
+    public Weather(Double temperature, Double pressure, Double humidity, Double windSpeed, Double windDegree, String date) {
         this.temperature = temperature;
         this.pressure = pressure;
         this.humidity = humidity;
-        this.windSpeed = wind_speed;
-        this.windDegree = wind_degree;
+        this.windSpeed = windSpeed;
+        this.windDegree = windDegree;
         this.date = date;
     }
 }

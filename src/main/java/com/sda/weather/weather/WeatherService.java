@@ -43,7 +43,7 @@ public class WeatherService {
             throw new RuntimeException("You can check the weather forecast only for 7 days ahead ");
         }
 
-        Location location = weatherRepository.getLocation(id, days);
+        Location location = weatherRepository.getLocation(id);
 
         if (location == null) {
             throw new RuntimeException("This city is not in the database");
@@ -70,10 +70,11 @@ public class WeatherService {
                 String date = changeUnixToDate(time);
 
                 Weather weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, date);
+                weatherRepository.addWeatherInfoToDatabase(location, weather);
                 weatherList.add(weather);
             }
 
-            weatherRepository.addWeatherInfoToDatabase(location, weatherList);
+
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();

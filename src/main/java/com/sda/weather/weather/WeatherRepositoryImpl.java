@@ -16,13 +16,12 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     }
 
     @Override
-    public void addWeatherInfoToDatabase(Location location, List<Weather> weatherList) {
+    public void addWeatherInfoToDatabase(Location location, Weather weather) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        for (int i = 0; i < weatherList.size(); i++) {  // todo move this loop to the service layer
-            location.addWeatherInfo(weatherList.get(i));
-        }
+        location.addWeatherInfo(weather);
+
 
         session.update(location);
 
@@ -32,19 +31,18 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     }
 
     @Override
-    public Location getLocation(Long id, Integer days) { // todo get rid of unnecessary parameter
+    public Location getLocation(Long id) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        // todo you can name it just location
-        Location getlocation = session.createQuery("Select l FROM Location AS l WHERE l.id = :id", Location.class)
+        Location location = session.createQuery("Select l FROM Location AS l WHERE l.id = :id", Location.class)
                 .setParameter("id", id)
                 .getSingleResult();
 
         transaction.commit();
         session.close();
 
-        return getlocation;
+        return location;
     }
 
 }

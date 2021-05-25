@@ -1,5 +1,6 @@
 package com.sda.weather.location;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sda.weather.weather.Weather;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,18 +28,19 @@ public class Location {
     private Double longitude;
     @Column(nullable = false)
     private Double latitude;
-    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER, mappedBy = "location") // todo you use session.update(location) so you have to use CascadeType.ALL
-    Set<Weather> weatherList = new HashSet<>(); // todo mark as a private
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "location")
+    @JsonIgnore
+    private Set<Weather> weatherList = new HashSet<>();
 
-    public Location(String cityname, String countryname, Double longitude, Double latitude) {   // todo cityName, countryName or just city, country
-        this.cityname = cityname;
-        this.countryname = countryname;
+    public Location(String city, String country, Double longitude, Double latitude) {
+        this.cityname = city;
+        this.countryname = country;
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
     public void addWeatherInfo(Weather weather) {
         weatherList.add(weather);
-        weather.setLocation(this);
+//        weather.setLocation(this);
     }
 }

@@ -96,8 +96,8 @@ public class UserInterface {
     private void showInfoAboutWeather() {
         System.out.print("Type id: \n");
         Long id = scan.nextLong();
-        System.out.print("For how many days ahead do you want to check the weather forecast?\n(The weather forecast is available for 7 days ahead.)\n");
-        Integer days = scan.nextInt();
+        System.out.print("Type date in format 'yyyy-mm-dd' or how many days ahead do you want to check the weather forecast.\n(The weather forecast is available for 7 days ahead.)\n");
+        String days = scan.next();
 
         String httpResponseBody = weatherController.showInfoAboutWeather(id, days);
         System.out.println(httpResponseBody);

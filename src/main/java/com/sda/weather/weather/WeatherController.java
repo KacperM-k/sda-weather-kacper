@@ -15,7 +15,7 @@ public class WeatherController {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-    public String showInfoAboutWeather(Long id, Integer days) {
+    public String showInfoAboutWeather(Long id, String days) {
         try {
             List<Weather> weather = weatherService.getInfoAboutWeatherForecast(id, days);
             return objectMapper.writeValueAsString(weather);

@@ -26,7 +26,7 @@ public class LocationController {
 
     public String showAllLocations() {
         try {
-            List<Location> locations = locationService.showAllLocations();
+            List<LocationDTO> locations = locationService.showAllLocations();
             return objectMapper.writeValueAsString(locations);
         } catch (JsonProcessingException e) {
             return String.format("{\"error\": \"%s\"}", e.getMessage());

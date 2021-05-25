@@ -20,8 +20,7 @@ public class WeatherRepositoryImpl implements WeatherRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-
-        for (int i = 0; i < weatherList.size(); i++) {
+        for (int i = 0; i < weatherList.size(); i++) {  // todo move this loop to the service layer
             location.addWeatherInfo(weatherList.get(i));
         }
 
@@ -33,10 +32,11 @@ public class WeatherRepositoryImpl implements WeatherRepository {
     }
 
     @Override
-    public Location getLocation(Long id, Integer days) {
+    public Location getLocation(Long id, Integer days) { // todo get rid of unnecessary parameter
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
+        // todo you can name it just location
         Location getlocation = session.createQuery("Select l FROM Location AS l WHERE l.id = :id", Location.class)
                 .setParameter("id", id)
                 .getSingleResult();

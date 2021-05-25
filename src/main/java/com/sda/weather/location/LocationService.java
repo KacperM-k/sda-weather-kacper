@@ -2,11 +2,10 @@ package com.sda.weather.location;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationService {
-
-    ObjectMapper objectMapper = new ObjectMapper();
 
     private LocationRepository locationRepository;
 
@@ -47,7 +46,9 @@ public class LocationService {
 
 
     public List<Location> showAllLocations() {
-        return locationRepository.showAllLocations();
+        List<Location> locationList = locationRepository.showAllLocations();
+
+        return locationList;
     }
 
 

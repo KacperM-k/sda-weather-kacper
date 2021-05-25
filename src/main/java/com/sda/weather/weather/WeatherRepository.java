@@ -2,10 +2,11 @@ package com.sda.weather.weather;
 
 import com.sda.weather.location.Location;
 
+import java.util.List;
+
 public interface WeatherRepository {
 
-//    public void addWeatherInfoToLocation(Location location, Weather weather);
+    void addWeatherInfoToDatabase(Location location, Weather weather);
 
-    public Location getLocation(Long id, Integer days);
-
+    Location getLocation(Long id);
 }

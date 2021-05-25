@@ -1,12 +1,12 @@
 package com.sda.weather.weather;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sda.weather.location.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.Instant;
 
 @Entity
 @Getter
@@ -22,15 +22,17 @@ public class Weather {
     private Double humidity;
     private Double windSpeed;
     private Double windDegree;
-    private Long time;
-    private Instant createDate;
+    private String date;
+    @ManyToOne
+    @JsonIgnore // todo Weather contains Location which contains Weather, which contains Location... and your log message is infinity
+    private Location location;
 
-    public Weather(Double temperature, Double pressure, Double humidity, Double wind_speed, Double wind_degree, Long time) {
+    public Weather(Double temperature, Double pressure, Double humidity, Double windSpeed, Double windDegree, String date) {
         this.temperature = temperature;
         this.pressure = pressure;
         this.humidity = humidity;
-        this.windSpeed = wind_speed;
-        this.windDegree = wind_degree;
-        this.time = time;
+        this.windSpeed = windSpeed;
+        this.windDegree = windDegree;
+        this.date = date;
     }
 }

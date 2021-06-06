@@ -78,7 +78,7 @@ public class WeatherService {
 
                     Instant actualTime = getActualDateTime();
                     Instant actualTimePlusSeven = getActualDateTime().plusSeconds(86400 * 7);
-                    Long userTime = changeStringToSecondsDate(period);
+                    Long userTime = changeStringToSeconds(period);
 
                     if(actualTime.isAfter(Instant.ofEpochSecond(userTime)) || actualTimePlusSeven.isBefore(Instant.ofEpochSecond(userTime))) {
                         throw new RuntimeException("Date is out of range " + actualTime + " - " + actualTimePlusSeven);
@@ -173,7 +173,7 @@ public class WeatherService {
         return sdf.format(date);
     }
 
-    private Long changeStringToSecondsDate(String strDate) {
+    private Long changeStringToSeconds(String strDate) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             return sdf.parse(strDate).getTime()/1000;

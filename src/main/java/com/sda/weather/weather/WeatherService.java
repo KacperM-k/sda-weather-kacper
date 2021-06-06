@@ -43,51 +43,71 @@ public class WeatherService {
 
         if (id == null) {
             throw new RuntimeException("Incorrect data: id or city name required.");
-        }
 
-        else if(checkIsStringADate(period)) {
-            // todo show a weather for a date
-        }
-
-
-        else if(checkIsStringANumber(period)) {
-            int days = Integer.parseInt(period);
-
-            if (days < 1 || days > 7) {
-                throw new RuntimeException("You can check the weather forecast only for 7 days ahead ");
-            }
-
-            String uri1 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + location.getLatitude() +
+        } else {
+            String uri = "https://api.openweathermap.org/data/2.5/onecall?lat=" + location.getLatitude() +
                     "&lon=" + location.getLongitude() + "&exclude=current,hourly,minutely,alert&appid=4bd569befe2b8c41377df8867200bc9e";
-
-//        String uri1 = "http://api.openweathermap.org/data/2.5/weather?q=" + location.getCityname() + "&appid=4bd569befe2b8c41377df8867200bc9e";
-//        String uri2 = "http://api.weatherstack.com/current?access_key=8fc1775cc891f959446e8e12c20ae86f&query=" + location.getCityname();
-
             try {
                 objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-                OpenWeatherInfo openWeatherInfo = objectMapper.readValue(getResponseBody(uri1), OpenWeatherInfo.class);
+                OpenWeatherInfo openWeatherInfo = objectMapper.readValue(getResponseBody(uri), OpenWeatherInfo.class);
 
-                for (int i = 1; i <= days; i++) {
-                    double KELVIN_CONST = 273.15;
-                    double temperature = openWeatherInfo.getDaily()[i].getTemp().getDay() - KELVIN_CONST;
-                    double pressure = openWeatherInfo.getDaily()[i].getPressure();
-                    double humidity = openWeatherInfo.getDaily()[i].getHumidity();
-                    double windSpeed = openWeatherInfo.getDaily()[i].getWind_speed();
-                    double windDegree = openWeatherInfo.getDaily()[i].getWind_deg();
-                    long time = openWeatherInfo.getDaily()[i].getDt();
-                    String date = changeUnixToDate(time);
+                if (checkIsStringANumber(period)) {
+                    int days = Integer.parseInt(period);
 
-                    Weather weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, date);
-                    weatherRepository.addWeatherInfoToDatabase(location, weather);
-                    weatherList.add(weather);
+                    if (days < 1 || days > 7) {
+                        throw new RuntimeException("You can check the weather forecast only for 7 days ahead ");
+                    } else {
+
+                        for (int i = 1; i <= days; i++) {
+                            double KELVIN_CONST = 273.15;
+                            double temperature = openWeatherInfo.getDaily()[i].getTemp().getDay() - KELVIN_CONST;
+                            double pressure = openWeatherInfo.getDaily()[i].getPressure();
+                            double humidity = openWeatherInfo.getDaily()[i].getHumidity();
+                            double windSpeed = openWeatherInfo.getDaily()[i].getWind_speed();
+                            double windDegree = openWeatherInfo.getDaily()[i].getWind_deg();
+                            long time = openWeatherInfo.getDaily()[i].getDt();
+                            String date = changeUnixToDetailedDate(time);
+
+                            Weather weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, date);
+                            weatherRepository.addWeatherInfoToDatabase(location, weather);
+                            weatherList.add(weather);
+                        }
+                    }
+                } else if (checkIsStringADate(period)) {
+                    //Wyciąganie pogody z danego dnia bez wykorzystania dedykowanego API.
+
+                    Instant actualTime = getActualDateTime();
+                    Instant actualTimePlusSeven = getActualDateTime().plusSeconds(86400 * 7);
+                    Long userTime = changeStringToSecondsDate(period);
+
+                    if(actualTime.isAfter(Instant.ofEpochSecond(userTime)) || actualTimePlusSeven.isBefore(Instant.ofEpochSecond(userTime))) {
+                        throw new RuntimeException("Date is out of range " + actualTime + " - " + actualTimePlusSeven);
+                    }
+
+                    for (int i = 1; i <= 7; i++) {
+                        double KELVIN_CONST = 273.15;
+                        double temperature = openWeatherInfo.getDaily()[i].getTemp().getDay() - KELVIN_CONST;
+                        double pressure = openWeatherInfo.getDaily()[i].getPressure();
+                        double humidity = openWeatherInfo.getDaily()[i].getHumidity();
+                        double windSpeed = openWeatherInfo.getDaily()[i].getWind_speed();
+                        double windDegree = openWeatherInfo.getDaily()[i].getWind_deg();
+                        long time = openWeatherInfo.getDaily()[i].getDt();
+                        String date = changeUnixToDetailedDate(time);
+
+                        if(changeUnixToDate(time).equals(period)) {
+                            Weather weather = new Weather(temperature, pressure, humidity, windSpeed, windDegree, date);
+                            weatherRepository.addWeatherInfoToDatabase(location, weather);
+                            weatherList.add(weather);
+                            break;
+                        }
+                    }
                 }
-
 
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-        }
 
+        }
         return weatherList;
     }
 
@@ -136,24 +156,40 @@ public class WeatherService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         return instant;
     }
 
-    private String changeUnixToDate(long unix) {
+    private String changeUnixToDetailedDate(long unix) {
         Date date = new Date(unix * 1000L);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
         sdf.setTimeZone(TimeZone.getTimeZone("GMT-0"));
         return sdf.format(date);
     }
 
+    private String changeUnixToDate(long unix) {
+        Date date = new Date(unix * 1000L);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-0"));
+        return sdf.format(date);
+    }
+
+    private Long changeStringToSecondsDate(String strDate) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return sdf.parse(strDate).getTime()/1000;
+
+        } catch (ParseException e) {
+            throw new RuntimeException("Data wykracz poza zakres 7 dni");
+        }
+    }
+
     private Boolean checkIsStringADate(String string) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                sdf.parse(string);
-                return true;
-            } catch (ParseException e) {
-                return false;
+        try {
+            sdf.parse(string);
+            return true;
+        } catch (ParseException e) {
+            return false;
         }
     }
 
@@ -161,7 +197,7 @@ public class WeatherService {
         try {
             Integer.parseInt(string);
             return true;
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return false;
         }
 
